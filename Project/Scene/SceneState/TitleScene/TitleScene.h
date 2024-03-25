@@ -49,8 +49,13 @@ private:
 	// メインカメラ
 	unique_ptr<Camera> camera_ = nullptr;
 
-	// Sprite
+	// Title
 	uint32_t titleSpriteTexHD_;
 	unique_ptr<Sprite> titleSprite_ = nullptr;
 	WorldTransform titleSpriteWt_{};
+
+	// Push
+	uint32_t pushSpriteTexHD_;
+	unique_ptr<Sprite> pushSprite_ = nullptr;
+	WorldTransform pushSpriteWt_{};
 };

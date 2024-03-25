@@ -9,11 +9,17 @@ void TitleScene::Initialize()
 	camera_ = make_unique<Camera>();
 	camera_->Initialize();
 
-	// スプライト
+	// Title
 	titleSpriteTexHD_ = TextureManager::LoadTexture("TitleSprite.png");
 	titleSprite_ = make_unique<Sprite>();
 	titleSprite_->Initialize({ 1280, 720 });
 	titleSpriteWt_.Initialize();
+
+	// Push
+	pushSpriteTexHD_ = TextureManager::LoadTexture("PushA.png");
+	pushSprite_ = make_unique<Sprite>();
+	pushSprite_->Initialize({ 512, 256 });
+	pushSpriteWt_.Initialize();
 }
 
 
@@ -25,13 +31,14 @@ void TitleScene::Update(GameManager* state)
 
 	/* ----- Sprite スプライト ----- */
 	titleSpriteWt_.UpdateMatrix();
+	pushSpriteWt_.UpdateMatrix();
 
 
 	// ボタン押下でシーンチェンジ
 	if (GamePadInput::TriggerButton(PadData::A)) {
 		state->ChangeSceneState(new GameScene());
 	}
-	if (KeysInput::TriggerKey(DIK_SPACE)) {
+	if (KeysInput::TriggerKey(DIK_A)) {
 		state->ChangeSceneState(new GameScene());
 	}
 
@@ -63,4 +70,5 @@ void TitleScene::FrontSpriteDraw()
 {
 	/* ----- Sprite スプライト ----- */
 	titleSprite_->Draw(titleSpriteTexHD_, titleSpriteWt_, camera_.get());
+	pushSprite_->Draw(pushSpriteTexHD_, pushSpriteWt_, camera_.get());
 }

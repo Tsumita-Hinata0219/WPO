@@ -53,5 +53,10 @@ private:
 	// メインカメラ
 	unique_ptr<Camera> camera_ = nullptr;
 
+
+	// Game
+	uint32_t GamePlaySpriteTexHD_;
+	unique_ptr<Sprite> GamePlaySprite_ = nullptr;
+	WorldTransform GamePlaySpriteWt_{};
 };
 

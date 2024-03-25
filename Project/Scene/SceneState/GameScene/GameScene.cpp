@@ -18,8 +18,8 @@ void GameScene::Initialize() {
 	/* ----- Camera カメラ ----- */
 	camera_ = make_unique<Camera>();
 	camera_->Initialize();
-	camera_->rotate = { 0.3f, 0.0f, 0.0f };
-	camera_->translate = { 0.0f, 25.0f, -72.0f };
+	camera_->rotate = { 0.2f, 0.0f, 0.0f };
+	camera_->translate = { 0.0f, 10.0f, 0.0f };
 
 
 	/* ----- Skydome 天球 ----- */
@@ -28,6 +28,13 @@ void GameScene::Initialize() {
 	/* ----- Ground 床 ----- */
 	Ground::GetInstance()->Initialize();
 
+
+	// スプライト
+	GamePlaySpriteTexHD_ = TextureManager::LoadTexture("GamePlay.png");
+	GamePlaySprite_ = make_unique<Sprite>();
+	GamePlaySprite_->Initialize({ 512, 256 });
+	GamePlaySpriteWt_.Initialize();
+	GamePlaySpriteWt_.translate.y = 500;
 }
 
 
@@ -46,6 +53,10 @@ void GameScene::Update(GameManager* state) {
 
 	/* ----- Ground 床 ----- */
 	Ground::GetInstance()->Update();
+
+
+	/* ----- Sprite スプライト ----- */
+	GamePlaySpriteWt_.UpdateMatrix();
 
 	// ボタン押下でシーンチェンジ
 	if (GamePadInput::PressButton(PadData::RIGHT)) {
@@ -102,5 +113,6 @@ void GameScene::ModelDraw() {
 /// </summary>
 void GameScene::FrontSpriteDraw() {
 
-	
+	/* ----- Sprite スプライト ----- */
+	GamePlaySprite_->Draw(GamePlaySpriteTexHD_, GamePlaySpriteWt_, camera_.get());
 }
