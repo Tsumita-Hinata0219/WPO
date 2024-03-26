@@ -123,7 +123,6 @@ struct ObjData {
 
 
 struct ParticleTransformationMatrix {
-	Matrix4x4 WVP;
 	Matrix4x4 World;
 	Vector4 Color;
 	Matrix4x4 uvTansform;

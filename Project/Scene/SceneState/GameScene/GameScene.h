@@ -8,6 +8,8 @@
 
 #include "CollisionManager.h"
 
+#include "Photon/Photon.h"
+
 
 class GameScene : public IScene {
 
@@ -58,5 +60,8 @@ private:
 	uint32_t GamePlaySpriteTexHD_;
 	unique_ptr<Sprite> GamePlaySprite_ = nullptr;
 	WorldTransform GamePlaySpriteWt_{};
+
+	// Photon
+	unique_ptr<Photon> photon_ = nullptr;
 };
 

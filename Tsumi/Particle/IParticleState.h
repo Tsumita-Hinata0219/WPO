@@ -1,7 +1,6 @@
 #pragma once
 #include "WorldTransform.h"
-#include "ViewProjection.h"
-
+#include "Camera.h"
 
 // Particle
 struct ParticleProperties {
@@ -36,7 +35,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 描画処理
 	/// </summary>
-	virtual void Draw(uint32_t texHD, Particle* pParticle, list<ParticleProperties> prope, ViewProjection view) = 0;
+	virtual void Draw(uint32_t texHD, Particle* pParticle, list<ParticleProperties> prope, Camera* camera) = 0;
 
 
 private: // メンバ変数

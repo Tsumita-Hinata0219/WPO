@@ -18,8 +18,8 @@ void GameScene::Initialize() {
 	/* ----- Camera カメラ ----- */
 	camera_ = make_unique<Camera>();
 	camera_->Initialize();
-	camera_->rotate = { 0.2f, 0.0f, 0.0f };
-	camera_->translate = { 0.0f, 10.0f, 0.0f };
+	camera_->rotate = { 0.0f, 0.0f, 0.0f };
+	camera_->translate = { 0.0f, 0.0f, -15.0f };
 
 
 	/* ----- Skydome 天球 ----- */
@@ -29,12 +29,17 @@ void GameScene::Initialize() {
 	Ground::GetInstance()->Initialize();
 
 
-	// スプライト
+	/* ----- Sprite スプライト ----- */
 	GamePlaySpriteTexHD_ = TextureManager::LoadTexture("GamePlay.png");
 	GamePlaySprite_ = make_unique<Sprite>();
 	GamePlaySprite_->Initialize({ 512, 256 });
 	GamePlaySpriteWt_.Initialize();
 	GamePlaySpriteWt_.translate.y = 500;
+	
+
+	/* ----- Photon 光子 ----- */
+	photon_ = make_unique<Photon>();
+	photon_->Initialize();
 }
 
 
@@ -58,6 +63,11 @@ void GameScene::Update(GameManager* state) {
 	/* ----- Sprite スプライト ----- */
 	GamePlaySpriteWt_.UpdateMatrix();
 
+
+	/* ----- Photon 光子 ----- */
+	photon_->Update();
+
+
 	// ボタン押下でシーンチェンジ
 	if (GamePadInput::PressButton(PadData::RIGHT)) {
 
@@ -67,6 +77,24 @@ void GameScene::Update(GameManager* state) {
 		if (GamePadInput::TriggerButton(PadData::Y)) {
 			state->ChangeSceneState(new OverScene());
 		}
+	}
+
+	// WASDもしくは十字キーでカメラ移動
+	if (KeysInput::PressKeys(DIK_W) || KeysInput::PressKeys(DIK_UP)) {
+
+		camera_->translate.y += 1.0f;
+	}
+	if (KeysInput::PressKeys(DIK_A) || KeysInput::PressKeys(DIK_LEFT)) {
+
+		camera_->translate.x -= 1.0f;
+	}
+	if (KeysInput::PressKeys(DIK_S) || KeysInput::PressKeys(DIK_DOWN)) {
+
+		camera_->translate.y -= 1.0f;
+	}
+	if (KeysInput::PressKeys(DIK_D) || KeysInput::PressKeys(DIK_RIGHT)) {
+
+		camera_->translate.x += 1.0f;
 	}
 
 #ifdef _DEBUG
@@ -104,6 +132,10 @@ void GameScene::ModelDraw() {
 
 	/* ----- Ground 床 ----- */
 	Ground::GetInstance()->Draw(camera_.get());
+
+	/* ----- Photon 光子 ----- */
+	photon_->Draw(camera_.get());
+
 	
 }
 

@@ -46,7 +46,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 描画処理
 	/// </summary>
-	void Draw(uint32_t useTex, ViewProjection view);
+	void Draw(uint32_t useTex, Camera* camera);
 
 	/// <summary>
 	/// 先頭から情報を取り出す

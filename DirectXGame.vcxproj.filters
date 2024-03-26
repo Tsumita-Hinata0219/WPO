@@ -83,6 +83,7 @@
     <ClCompile Include="Tsumi\Utilities\ImGuiManager\ImGuiManager.cpp" />
     <ClCompile Include="Tsumi\Utilities\TimedCall\TimedCall.cpp" />
     <ClCompile Include="Project\Math\MathEasing\MathEasing.cpp" />
+    <ClCompile Include="Project\GameObject\Effect\Photon\Photon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Tsumi\Utilities\ImGuiManager\JapaneseGlyphArray.h" />
     <ClInclude Include="Project\Math\MathEasing\MathEasing.h" />
     <ClInclude Include="Project\Math\MathGeometry\MathGeometry.h" />
+    <ClInclude Include="Project\GameObject\Effect\Photon\Photon.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\LambertObject.hlsli" />
