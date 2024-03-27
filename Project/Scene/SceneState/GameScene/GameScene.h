@@ -68,5 +68,10 @@ private:
 	uint32_t pushSpriteTexHD_;
 	unique_ptr<Sprite> pushSprite_ = nullptr;
 	WorldTransform pushSpriteWt_{};
+
+	// Manual
+	uint32_t manualSpriteTexHD_;
+	unique_ptr<Sprite> manualSprite_ = nullptr;
+	WorldTransform manualSpriteWt_{};
 };
 

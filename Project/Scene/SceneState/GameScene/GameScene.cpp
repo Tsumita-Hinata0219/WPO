@@ -41,11 +41,18 @@ void GameScene::Initialize() {
 	photon_ = make_unique<Photon>();
 	photon_->Initialize();
 
-	// Push
+	/* ----- Push ボタン押下スプライト ----- */
 	pushSpriteTexHD_ = TextureManager::LoadTexture("PushA.png");
 	pushSprite_ = make_unique<Sprite>();
 	pushSprite_->Initialize({ 512, 256 });
 	pushSpriteWt_.Initialize();
+
+	/* ----- Manual マニュアルスプライト ----- */
+	manualSpriteTexHD_ = TextureManager::LoadTexture("Manual.png");
+	manualSprite_ = make_unique<Sprite>();
+	manualSprite_->Initialize({ 512, 256 });
+	manualSpriteWt_.Initialize();
+	manualSpriteWt_.translate = { 700.0f, 550.0f, 0.0f };
 }
 
 
@@ -69,6 +76,7 @@ void GameScene::Update(GameManager* state) {
 	/* ----- Sprite スプライト ----- */
 	GamePlaySpriteWt_.UpdateMatrix();
 	pushSpriteWt_.UpdateMatrix();
+	manualSpriteWt_.UpdateMatrix();
 
 
 	/* ----- Photon 光子 ----- */
@@ -148,4 +156,5 @@ void GameScene::FrontSpriteDraw() {
 	/* ----- Sprite スプライト ----- */
 	GamePlaySprite_->Draw(GamePlaySpriteTexHD_, GamePlaySpriteWt_, camera_.get());
 	pushSprite_->Draw(pushSpriteTexHD_, pushSpriteWt_, camera_.get());
+	manualSprite_->Draw(manualSpriteTexHD_, manualSpriteWt_, camera_.get());
 }
