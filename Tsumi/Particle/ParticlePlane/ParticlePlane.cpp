@@ -83,10 +83,15 @@ void ParticlePlane::Draw(uint32_t texHD, Particle* pParticle, list<ParticlePrope
 		// 最大描画数を超えないようにする
 		if (instanceNum_ <= kMaxInstanceNum_) {
 
+			// 座標
 			Matrix4x4 scaleMat = MakeScaleMatrix((*itr).worldTransform.scale);
 			Matrix4x4 translateMat = MakeTranslateMatrix((*itr).worldTransform.translate);
 			Matrix4x4 worldPos = scaleMat * (billMat * translateMat);
+
+			// カメラ
 			Matrix4x4 worldView = camera->matView * camera->matProjection;
+
+			// ふたつの行列を合わせる
 			Matrix4x4 matWorld = worldPos * worldView;
 
 			(*itr).uvTransform.matWorld = MakeAffineMatrix(
