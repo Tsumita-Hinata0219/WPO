@@ -35,17 +35,15 @@ void TitleScene::Update(GameManager* state)
 
 
 	// ボタン押下でシーンチェンジ
-	if (GamePadInput::TriggerButton(PadData::A)) {
+	if (GamePadInput::TriggerButton(PadData::A) || KeysInput::TriggerKey(DIK_A)) {
 		state->ChangeSceneState(new GameScene());
 	}
-	if (KeysInput::TriggerKey(DIK_A)) {
-		state->ChangeSceneState(new GameScene());
-	}
+	
 
 #ifdef _DEBUG
 
-	ImGui::Begin("TitleScene");
-	ImGui::End();
+	//ImGui::Begin("TitleScene");
+	//ImGui::End();
 
 #endif // _DEBUG
 }

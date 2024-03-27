@@ -40,6 +40,12 @@ void GameScene::Initialize() {
 	/* ----- Photon 光子 ----- */
 	photon_ = make_unique<Photon>();
 	photon_->Initialize();
+
+	// Push
+	pushSpriteTexHD_ = TextureManager::LoadTexture("PushA.png");
+	pushSprite_ = make_unique<Sprite>();
+	pushSprite_->Initialize({ 512, 256 });
+	pushSpriteWt_.Initialize();
 }
 
 
@@ -62,44 +68,40 @@ void GameScene::Update(GameManager* state) {
 
 	/* ----- Sprite スプライト ----- */
 	GamePlaySpriteWt_.UpdateMatrix();
+	pushSpriteWt_.UpdateMatrix();
 
 
 	/* ----- Photon 光子 ----- */
 	photon_->Update();
 
 
-	// ボタン押下でシーンチェンジ
-	if (GamePadInput::PressButton(PadData::RIGHT)) {
-
-		if (GamePadInput::TriggerButton(PadData::X)) {
-			state->ChangeSceneState(new ClearScene());
-		}
-		if (GamePadInput::TriggerButton(PadData::Y)) {
-			state->ChangeSceneState(new OverScene());
-		}
-	}
-
 	// WASDもしくは十字キーでカメラ移動
-	if (KeysInput::PressKeys(DIK_W) || KeysInput::PressKeys(DIK_UP)) {
+	if (KeysInput::PressKeys(DIK_UP)) {
 
 		camera_->translate.y += 1.0f;
 	}
-	if (KeysInput::PressKeys(DIK_A) || KeysInput::PressKeys(DIK_LEFT)) {
+	if (KeysInput::PressKeys(DIK_LEFT)) {
 
 		camera_->translate.x -= 1.0f;
 	}
-	if (KeysInput::PressKeys(DIK_S) || KeysInput::PressKeys(DIK_DOWN)) {
+	if (KeysInput::PressKeys(DIK_DOWN)) {
 
 		camera_->translate.y -= 1.0f;
 	}
-	if (KeysInput::PressKeys(DIK_D) || KeysInput::PressKeys(DIK_RIGHT)) {
+	if (KeysInput::PressKeys(DIK_RIGHT)) {
 
 		camera_->translate.x += 1.0f;
 	}
 
+	// ボタン押下でシーンチェンジ
+	if (GamePadInput::TriggerButton(PadData::A) || KeysInput::TriggerKey(DIK_A)) {
+		state->ChangeSceneState(new TitleScene());
+	}
+	
+
 #ifdef _DEBUG
 
-	ImGui::Begin("GameScene");
+	/*ImGui::Begin("GameScene");
 	
 	ImGui::Text("");
 
@@ -108,7 +110,7 @@ void GameScene::Update(GameManager* state) {
 	ImGui::DragFloat3("Translate", &camera_->translate.x, 0.01f);
 	ImGui::Text("");
 
-	ImGui::End();
+	ImGui::End();*/
 
 #endif // _DEBUG
 }
@@ -135,8 +137,6 @@ void GameScene::ModelDraw() {
 
 	/* ----- Photon 光子 ----- */
 	photon_->Draw(camera_.get());
-
-	
 }
 
 
@@ -147,4 +147,5 @@ void GameScene::FrontSpriteDraw() {
 
 	/* ----- Sprite スプライト ----- */
 	GamePlaySprite_->Draw(GamePlaySpriteTexHD_, GamePlaySpriteWt_, camera_.get());
+	pushSprite_->Draw(pushSpriteTexHD_, pushSpriteWt_, camera_.get());
 }

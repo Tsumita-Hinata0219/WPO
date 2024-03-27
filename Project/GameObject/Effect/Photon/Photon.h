@@ -23,16 +23,29 @@ public:
 
 private:
 
-	// Particle
-	std::unique_ptr<Particle> particle_ = nullptr;
+	uint32_t particle1HD_;
+	uint32_t particle2HD_;
 
-	uint32_t circleHD_;
+	// Particle
+	std::unique_ptr<Particle> particle1_ = nullptr;
 
 	// パーティクルリスト
-	std::list<ParticleProperties> particlePropes_{};
-	Emitter emitter_{};
-	Scope lifeTimeScope_{};
-	ScopeVec3 posScope_{};
-	ScopeVec3 velScope_{};
-	ScopeVec4 colorScope_{};
+	std::list<ParticleProperties> particlePropes1_{};
+	Emitter emitter1_{};
+	Scope lifeTimeScope1_{};
+	ScopeVec3 posScope1_{};
+	ScopeVec3 velScope1_{};
+	ScopeVec4 colorScope1_{};
+	
+	
+	// Particle
+	std::unique_ptr<Particle> particle2_ = nullptr;
+
+	// パーティクルリスト
+	std::list<ParticleProperties> particlePropes2_{};
+	Emitter emitter2_{};
+	Scope lifeTimeScope2_{};
+	ScopeVec3 posScope2_{};
+	ScopeVec3 velScope2_{};
+	ScopeVec4 colorScope2_{};
 };

@@ -63,5 +63,10 @@ private:
 
 	// Photon
 	unique_ptr<Photon> photon_ = nullptr;
+
+	// Push
+	uint32_t pushSpriteTexHD_;
+	unique_ptr<Sprite> pushSprite_ = nullptr;
+	WorldTransform pushSpriteWt_{};
 };
 

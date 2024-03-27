@@ -4,52 +4,85 @@
 // 初期化処理
 void Photon::Initialize()
 {
-	circleHD_ = TextureManager::LoadTexture("Particle1.png");
+	particle1HD_ = TextureManager::LoadTexture("Particle1.png");
+	particle2HD_ = TextureManager::LoadTexture("Particle2.png");
 
-	particle_ = make_unique<Particle>();
+	particle1_ = make_unique<Particle>();
+	particle2_ = make_unique<Particle>();
 
-	emitter_.worldTransform.Initialize();
-	emitter_.worldTransform.translate.x = 16.0f;
-	emitter_.count = 10;
-	emitter_.frequency = 1.0f * 60.0f;
-	emitter_.frequencyTime = 0;
+	emitter1_.worldTransform.Initialize();
+	emitter1_.worldTransform.translate.x = 16.0f;
+	emitter1_.count = 30;
+	emitter1_.frequency = 1.0f * 60.0f;
+	emitter1_.frequencyTime = 0;
 
-	lifeTimeScope_ = {
+	lifeTimeScope1_ = {
 		.min = 3,
-		.max = 4,
+		.max = 5,
 	};
-	posScope_ = {
+	posScope1_ = {
 		.X = {0.0f, 0.0f},
 		.Y = {-4.0f, 4.0f},
 		.Z = {0.0f, 0.0f},
 	};
-	velScope_ = {
+	velScope1_ = {
 		.X = {-7.0f, -5.0f},
 		.Y = {0.0f, 0.0f},
 		.Z = {0.0f, 0.0f},
 	};
-	colorScope_ = {
+	colorScope1_ = {
 		.X = {0.0f, 256.0f},
 		.Y = {0.0f, 256.0f},
 		.Z = {0.0f, 256.0f},
 		.W = {256.0f, 256.0f},
 	};
-	particle_->Initialize(new ParticlePlane(), emitter_.count);
+	particle1_->Initialize(new ParticlePlane(), emitter1_.count);
+
+
+
+
+	emitter2_.worldTransform.Initialize();
+	emitter2_.worldTransform.translate.x = -16.0f;
+	emitter2_.count = 30;
+	emitter2_.frequency = 1.0f * 60.0f;
+	emitter2_.frequencyTime = 0;
+
+	lifeTimeScope2_ = {
+		.min = 3,
+		.max = 5,
+	};
+	posScope2_ = {
+		.X = {0.0f, 0.0f},
+		.Y = {-4.0f, 4.0f},
+		.Z = {0.0f, 0.0f},
+	};
+	velScope2_ = {
+		.X = {-7.0f, -5.0f},
+		.Y = {0.0f, 0.0f},
+		.Z = {0.0f, 0.0f},
+	};
+	colorScope2_ = {
+		.X = {0.0f, 256.0f},
+		.Y = {0.0f, 256.0f},
+		.Z = {0.0f, 256.0f},
+		.W = {256.0f, 256.0f},
+	};
+	particle2_->Initialize(new ParticlePlane(), emitter2_.count);
 }
 
 
 // 更新処理
 void Photon::Update()
 {
-	emitter_.frequencyTime += 1.0f;
+	emitter1_.frequencyTime += 1.0f;
 
-	if (emitter_.frequencyTime >= emitter_.frequency) {
-		emitter_.frequencyTime = 0.0f;
-		particle_->Emit(emitter_, lifeTimeScope_, posScope_, velScope_, colorScope_);
+	if (emitter1_.frequencyTime >= emitter1_.frequency) {
+		emitter1_.frequencyTime = 0.0f;
+		particle1_->Emit(emitter1_, lifeTimeScope1_, posScope1_, velScope1_, colorScope1_);
 	}
 
-	particlePropes_ = particle_->RetrieveFront();
-	for (ParticleProperties& prope : particlePropes_) {
+	particlePropes1_ = particle1_->RetrieveFront();
+	for (ParticleProperties& prope : particlePropes1_) {
 
 		// 速度を座標に加算
 		prope.worldTransform.translate += prope.velocity;
@@ -65,22 +98,42 @@ void Photon::Update()
 			continue;
 		}
 
-		particle_->PushBackList(prope);
+		particle1_->PushBackList(prope);
 	}
 
-#ifdef _DEBUG
 
-	ImGui::Begin("emitter");
-	ImGui::DragFloat3("transform", &emitter_.worldTransform.translate.x, 0.1f);
-	ImGui::End();
+	emitter2_.frequencyTime += 1.0f;
 
+	if (emitter2_.frequencyTime >= emitter2_.frequency) {
+		emitter2_.frequencyTime = 0.0f;
+		particle2_->Emit(emitter2_, lifeTimeScope2_, posScope2_, velScope2_, colorScope2_);
+	}
 
-#endif // _DEBUG
+	particlePropes2_ = particle2_->RetrieveFront();
+	for (ParticleProperties& prope : particlePropes2_) {
+
+		// 速度を座標に加算
+		prope.worldTransform.translate -= prope.velocity;
+
+		// 寿命の処理
+		prope.currentTime++;
+
+		// alphaの処理
+		float alpha = 1.0f - (float(prope.currentTime) / float(prope.lifeTime));
+		prope.color.w = alpha;
+
+		if (prope.currentTime >= prope.lifeTime) {
+			continue;
+		}
+
+		particle2_->PushBackList(prope);
+	}
 }
 
 
 // 描画処理
 void Photon::Draw(Camera* camera)
 {
-	particle_->Draw(circleHD_, camera);
+	particle1_->Draw(particle1HD_, camera);
+	particle2_->Draw(particle2HD_, camera);
 }
