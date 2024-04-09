@@ -102,32 +102,32 @@ void Photon::Update()
 	}
 
 
-	//emitter2_.frequencyTime += 1.0f;
+	emitter2_.frequencyTime += 1.0f;
 
-	//if (emitter2_.frequencyTime >= emitter2_.frequency) {
-	//	emitter2_.frequencyTime = 0.0f;
-	//	particle2_->Emit(emitter2_, lifeTimeScope2_, posScope2_, velScope2_, colorScope2_);
-	//}
+	if (emitter2_.frequencyTime >= emitter2_.frequency) {
+		emitter2_.frequencyTime = 0.0f;
+		particle2_->Emit(emitter2_, lifeTimeScope2_, posScope2_, velScope2_, colorScope2_);
+	}
 
-	//particlePropes2_ = particle2_->RetrieveFront();
-	//for (ParticleProperties& prope : particlePropes2_) {
+	particlePropes2_ = particle2_->RetrieveFront();
+	for (ParticleProperties& prope : particlePropes2_) {
 
-	//	// 速度を座標に加算
-	//	prope.worldTransform.translate -= prope.velocity;
+		// 速度を座標に加算
+		prope.worldTransform.translate -= prope.velocity;
 
-	//	// 寿命の処理
-	//	prope.currentTime++;
+		// 寿命の処理
+		prope.currentTime++;
 
-	//	// alphaの処理
-	//	float alpha = 1.0f - (float(prope.currentTime) / float(prope.lifeTime));
-	//	prope.color.w = alpha;
+		// alphaの処理
+		float alpha = 1.0f - (float(prope.currentTime) / float(prope.lifeTime));
+		prope.color.w = alpha;
 
-	//	if (prope.currentTime >= prope.lifeTime) {
-	//		continue;
-	//	}
+		if (prope.currentTime >= prope.lifeTime) {
+			continue;
+		}
 
-	//	particle2_->PushBackList(prope);
-	//}
+		particle2_->PushBackList(prope);
+	}
 }
 
 
@@ -135,5 +135,5 @@ void Photon::Update()
 void Photon::Draw(Camera* camera)
 {
 	particle1_->Draw(particle1HD_, camera);
-	//particle2_->Draw(particle2HD_, camera);
+	particle2_->Draw(particle2HD_, camera);
 }
